@@ -16,7 +16,6 @@ public class BoardController {
 	
 	@GetMapping("/")
 	public BoardResponse<Book> jsonTest() {
-		BookService bookService = new BookService();
 		SearchDto params = new SearchDto();
 		BoardResponse<Book> response = bookService.findAllBook(params);
 		return response;

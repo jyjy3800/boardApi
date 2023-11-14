@@ -9,11 +9,11 @@ import lombok.Getter;
 public class BoardResponse<T> {
 	
 	private List<T> data = new ArrayList<>();
-	private Pagination pagination;
+	private Pagination meta;
 
     public BoardResponse(List<T> list, Pagination pagination) {
         this.data.addAll(list);
-        this.pagination = pagination;
+        this.meta = pagination;
     }
 
 }
