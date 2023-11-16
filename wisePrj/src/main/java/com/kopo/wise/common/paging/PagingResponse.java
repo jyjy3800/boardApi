@@ -1,4 +1,4 @@
-package com.kopo.wise;
+package com.kopo.wise.common.paging;
 
 import lombok.Getter;
 
