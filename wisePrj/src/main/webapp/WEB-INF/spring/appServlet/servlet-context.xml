@@ -20,7 +20,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kopo" />
+	<context:component-scan base-package="com.kopo.wise" />
 	<!-- Swagger Configuration -->
 	<beans:bean id="swagger2Config" class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" />
 	

@@ -9,11 +9,10 @@ import java.util.List;
 @Repository
 public interface ReplyMapper {
 
-    
-    
-
-    
     List<ReplyResponse> findAll(Long postId);
 
+    void update(ReplyRequest params);
+    
+    void deleteById(Long id);
 
 }

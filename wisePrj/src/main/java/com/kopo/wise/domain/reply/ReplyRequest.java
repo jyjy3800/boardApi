@@ -12,7 +12,8 @@ public class ReplyRequest {
     private Long postId;      
     private String content;   
     private String writer;   
-    private Long fatherCommentId;
+    private Long fatherId;
+   
 
 
 }

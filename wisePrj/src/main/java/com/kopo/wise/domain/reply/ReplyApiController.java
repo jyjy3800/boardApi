@@ -19,20 +19,26 @@ import com.kopo.wise.domain.user.UserResponse;
 
 @RestController
 @RequiredArgsConstructor
-public class RplyApiController {
+public class ReplyApiController {
 
-	private final ReplyService commentService;
+	
+	private final ReplyService replyService;
 	
 
 
 
 	@GetMapping("/posts/{postId}/comments")
-	public Map<Long, List<ReplyResponse>> findAllComment(@PathVariable final Long postId) {
-		 Map<Long, List<ReplyResponse>> result = commentService.findPostId(postId);
+	public  List<ReplyResponse>findAllComment(@PathVariable final Long postId) {
+		List<ReplyResponse> result = replyService.findPostId(postId);
 		 return result;
 	}
 
-	
+//	@GetMapping("/posts/{postId}/comments")
+//	public String findAllComment(@PathVariable final Long postId) {
+//		// Map<Long, List<ReplyResponse>> result = replyService.findPostId(postId);
+//		System.out.println(postId);
+//		 return "postId";
+//	}
 
 	@PatchMapping("/posts/{postId}/comments/{id}")
 	public int updateComment(HttpServletRequest request,@PathVariable final Long id, @RequestBody final ReplyRequest params) {
@@ -42,7 +48,7 @@ public class RplyApiController {
 		Long memberId = loginMember.getId();
 		int role = loginMember.getRole();	
 		if (params.getWriter().equals(writerId) || role == 1) {
-			commentService.updateComment(params, memberId);
+			replyService.updateComment(params, memberId);
 			
 			return 1;
 		} else
@@ -57,7 +63,7 @@ public class RplyApiController {
 		Long memberId = loginMember.getId();
 		int role = loginMember.getRole();		
 		if (params.getWriter().equals(writerId) || role == 1) {
-			commentService.deleteComment(id,memberId);			
+			replyService.deleteComment(id,memberId);			
 			return 1;
 		} else
 			return 0;

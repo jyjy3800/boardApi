@@ -1,12 +1,15 @@
 package com.kopo.wise.domain.post;
 
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Setter
-@Getter
+import com.kopo.wise.domain.file.FileResponse;
+import com.kopo.wise.domain.reply.ReplyResponse;
+
+import lombok.Data;
+
+@Data
 public class PostResponse {
 
     private Long id;                       
@@ -18,5 +21,7 @@ public class PostResponse {
     private LocalDateTime modifiedDate;    
     private String saveName;             
     private LocalDateTime fileDate;   
+    private List<ReplyResponse> replies;
+    private List<FileResponse> files;
    
 }

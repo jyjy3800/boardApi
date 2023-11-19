@@ -30,12 +30,19 @@
 		<constructor-arg ref="hikariConfig" />
 	</bean>
 
-	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
-		id="sqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="com.kopo.wise.domain" />
-		<property name="mapperLocations"
-			value="classpath*:mappers/*Mapper.xml" />
-	</bean>
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="com.kopo.wise.domain" />
+        <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml" />
+        
+        <!-- MyBatis Configuration 추가 -->
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <property name="mapUnderscoreToCamelCase" value="true" />
+            </bean>
+        </property>
+    </bean>
+	
+	<mybatis-spring:scan base-package="com.kopo.wise.domain" />
 		
 </beans>
