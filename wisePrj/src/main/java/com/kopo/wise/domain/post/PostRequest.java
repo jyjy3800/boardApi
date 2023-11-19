@@ -12,11 +12,11 @@ import java.util.List;
 public class PostRequest {
 
     private Long id;                                          // PK
-    private String title;                                     // ? œëª?
-    private String content;                                   // ?‚´?š©
-    private String writer;                                    // ?‘?„±?
-    private Boolean noticeYn;                                 // ê³µì?ê¸? ?—¬ë¶?
-    private List<MultipartFile> files = new ArrayList<>();    // ì²¨ë??ŒŒ?¼ List
-    private List<Long> removeFileIds = new ArrayList<>();     // ?‚­? œ?•  ì²¨ë??ŒŒ?¼ id List
+    private String title;                                     // ?ï¿½ï¿½ï¿½?
+    private String content;                                   // ?ï¿½ï¿½?ï¿½ï¿½
+    private String writer;                                    // ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
+    private int postType;                                 // ê³µï¿½?ï¿½? ?ï¿½ï¿½ï¿½?
+    private List<MultipartFile> files = new ArrayList<>();    // ì²¨ï¿½??ï¿½ï¿½?ï¿½ï¿½ List
+    private List<Long> removeFileIds = new ArrayList<>();     // ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ì²¨ï¿½??ï¿½ï¿½?ï¿½ï¿½ id List
 
 }

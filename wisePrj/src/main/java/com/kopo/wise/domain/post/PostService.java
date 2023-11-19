@@ -29,7 +29,9 @@ public class PostService {
 
  
     public PostResponse findPostById(final Long id) {
+    	System.out.println(id);
     	PostResponse post = postMapper.findById(id);
+    	System.out.println(post.getId()+"ì„œë¹„ìŠ¤");
     	List<ReplyResponse> replies = replyService.findPostId(id);
     	post.setReplies(replies);
         return post;
@@ -53,17 +55,14 @@ public class PostService {
     
     public PagingResponse<PostResponse> findAllPost(final SearchDto params) {
 
-        // ì¡°ê±´?— ?•´?‹¹?•˜?Š” ?°?´?„°ê°? ?—†?Š” ê²½ìš°, ?‘?‹µ ?°?´?„°?— ë¹„ì–´?ˆ?Š” ë¦¬ìŠ¤?Š¸?? null?„ ?‹´?•„ ë°˜í™˜
         int count = postMapper.postCount(params);
         if (count < 1) {
             return new PagingResponse<>(Collections.emptyList(), null);
         }
 
-        // Pagination ê°ì²´ë¥? ?ƒ?„±?•´?„œ ?˜?´ì§? ? •ë³? ê³„ì‚° ?›„ SearchDto ???…?˜ ê°ì²´?¸ params?— ê³„ì‚°?œ ?˜?´ì§? ? •ë³? ???¥
         Pagination pagination = new Pagination(count, params);
         params.setPagination(pagination);
 
-        // ê³„ì‚°?œ ?˜?´ì§? ? •ë³´ì˜ ?¼ë¶?(limitStart, recordSize)ë¥? ê¸°ì??œ¼ë¡? ë¦¬ìŠ¤?Š¸ ?°?´?„° ì¡°íšŒ ?›„ ?‘?‹µ ?°?´?„° ë°˜í™˜
         List<PostResponse> list = postMapper.findAll(params);
         return new PagingResponse<>(list, pagination);
     }

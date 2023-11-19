@@ -15,6 +15,8 @@ import java.util.Map;
 public class ReplyService {
 
     private final ReplyMapper replyMapper;
+    
+    //ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ
     public List<ReplyResponse> findPostId(final Long id) {
         List<ReplyResponse> replies = replyMapper.findAll(id);
         
@@ -24,13 +26,11 @@ public class ReplyService {
       }
         return replies;
     }
-        
-        // parentId°¡ ÀÖ´Â °æ¿ì ÇØ´ç id¿Í µ¿ÀÏÇÑ °ªÀÇ ReplyResponse °´Ã¼¸¦ ÀÚ½ÄÀ¸·Î ºÙÀÌ°í,
+    //ëŒ“ê¸€ ìˆœì„œ ì •ë ¬(ë¶€ëª¨ ëŒ“ê¸€ ë‹¤ìŒ ë°”ë¡œ ìì‹ ëŒ“ê¸€)
     public static List<ReplyResponse> sortComments(List<ReplyResponse> comments) {
         Map<Long, List<ReplyResponse>> commentMap = new HashMap<>();
         List<ReplyResponse> sortedComments = new ArrayList<>();
 
-        // °¢ ´ñ±ÛÀ» ºÎ¸ğ ID¸¦ ±âÁØÀ¸·Î ¸Ê¿¡ ÀúÀå
         for (ReplyResponse comment : comments) {
             if (!commentMap.containsKey(comment.getFatherId())) {
                 commentMap.put(comment.getFatherId(), new ArrayList<>());
@@ -38,7 +38,6 @@ public class ReplyService {
             commentMap.get(comment.getFatherId()).add(comment);
         }
 
-        // ÃÖ»óÀ§ ·¹º§ ´ñ±ÛºÎÅÍ ½ÃÀÛÇÏ¿© Àç±ÍÀûÀ¸·Î Á¤·Ä
         recursiveSort(null, commentMap, sortedComments);
 
         return sortedComments;
@@ -53,19 +52,48 @@ public class ReplyService {
         }
     }
     
-
-   
+    /**
+     * ëŒ“ê¸€ ì €ì¥
+     * @param params - ëŒ“ê¸€ ì •ë³´
+     * @return Generated PK
+     */
     @Transactional
-    public Long updateComment(final ReplyRequest params,Long memberId) {
+    public Long saveReply(final ReplyRequest params) {
+    	replyMapper.save(params);
+        return params.getId();
+    }
+   
+    /**
+     * ëŒ“ê¸€ ìƒì„¸ì •ë³´ ì¡°íšŒ
+     * @param id - PK
+     * @return ëŒ“ê¸€ ìƒì„¸ì •ë³´
+     */
+    public ReplyResponse findReplyById(final Long id) {
+        return replyMapper.findById(id);
+    }
+
+    /**
+     * ëŒ“ê¸€ ìˆ˜ì •
+     * @param params - ëŒ“ê¸€ ì •ë³´
+     * @return PK
+     */
+    @Transactional
+    public Long updateReply(final ReplyRequest params) {
     	replyMapper.update(params);
         return params.getId();
     }
 
-  
+    /**
+     * ëŒ“ê¸€ ì‚­ì œ
+     * @param id - PK
+     * @return PK
+     */
     @Transactional
-    public Long deleteComment(final Long id, Long memberId) {
+    public Long deleteReply(final Long id) {
     	replyMapper.deleteById(id);
         return id;
     }
+
+    
 
 }

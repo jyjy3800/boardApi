@@ -9,4 +9,29 @@ FROM comment
 WHERE post_id = #{postId};
 
 </select>
+ <update id="update" parameterType="com.kopo.wise.domain.reply.ReplyRequest">
+        UPDATE reply
+        SET
+              modified_date = NOW()
+            , content = #{content}
+            , writer = #{writer}
+        WHERE
+            id = #{id}
+    </update>
+
+
+    <!-- 댓글 삭제 -->
+    <delete id="deleteById" parameterType="long">
+        UPDATE reply
+        SET
+            delete_yn = 1
+        WHERE
+            id = #{id}
+    </delete>
+    <select id ="findById" parameterType="long" resultType="com.kopo.wise.domain.reply.ReplyResponse">
+    
+    select* from reply 
+    where   
+    id = #{id}
+    </select>
 </mapper>

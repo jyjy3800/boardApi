@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kopo.wise.domain.post.PostMapper">
+
+<select id="findById" parameterType="long" resultType="com.kopo.wise.domain.post.PostResponse">
+SELECT id, title, content, writer, created_date, modified_date
+FROM post
+WHERE id = #{id};
+
+</select>
+<select id="findAll" parameterType="com.kopo.wise.common.dto.SearchDto" resultType="com.kopo.wise.domain.post.PostResponse">
+SELECT id, title, content, writer, created_date, modified_date
+FROM post
+
+
+</select>
+<!-- 게시글 저장 -->
+	<insert id="save"
+		parameterType="com.kopo.wise.domain.post.PostRequest"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO post (id,title,content,writer,post_type,created_date)
+		
+		) VALUES (
+		#{id}
+		, #{title}
+		, #{content}
+		, #{writer}
+		, #{postType}
+		,NOW()
+		)
+	</insert>
+	<select id="postCount"
+		parameterType="com.kopo.wise.common.dto.SearchDto" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		post
+		WHERE
+		delete_yn =0
+	</select>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteById" parameterType="long">
+		UPDATE post
+		SET
+		delete_yn =
+		1
+		WHERE
+		id = #{id}
+	</delete>
+	
+	<update id="update"
+		parameterType="com.kopo.wise.domain.post.PostRequest">
+		UPDATE post
+		SET
+		modified_date = NOW()
+		, title = #{title}
+		,
+		content = #{content}
+		, writer = #{writer}
+		, notice_yn = #{noticeYn}
+		WHERE
+		id = #{id}
+	</update>
+</mapper>

@@ -30,11 +30,10 @@ public class PostController {
 	private final PostService postService;
 	private final FileUtils fileUtils;
 	private final FileService fileService;
-	
+
 	@Value("${uploadPath}")
 	private String uploadPath;
 
-	
 	private Map<String, Object> queryParamsToMap(final SearchDto queryParams) {
 		Map<String, Object> data = new HashMap<>();
 		data.put("page", queryParams.getPage());
@@ -45,12 +44,8 @@ public class PostController {
 		return data;
 	}
 
-	
-
-	
-
-	@GetMapping("/")
-	public PagingResponse<PostResponse> openPostList(@ModelAttribute("params") final SearchDto params, Model model) {
+	@GetMapping("/posts")
+	public PagingResponse<PostResponse> openPostList(final SearchDto params, Model model) {
 		PagingResponse<PostResponse> response = postService.findAllPost(params);
 		return response;
 	}
@@ -66,66 +61,58 @@ public class PostController {
 		HttpSession session = request.getSession();
 		UserResponse loginMember = (UserResponse) session.getAttribute("loginMember");
 		long memberId = loginMember.getId();
-		Long id = postService.savePost(params,memberId);
+		Long id = postService.savePost(params, memberId);
 		List<FileRequest> files = fileUtils.uploadFiles(params.getFiles());
 		fileService.saveFiles(id, files);
-		return "己傍";
+		return "靹标车";
 	}
 
 	@PostMapping("/post/update.do")
-	public String updatePost(final PostRequest params, final SearchDto queryParams, HttpServletRequest request
-			) {
-		String result ="柳青";
+	public String updatePost(final PostRequest params, HttpServletRequest request) {
+		String result = "";
 		HttpSession session = request.getSession();
 		UserResponse loginMember = (UserResponse) session.getAttribute("loginMember");
 		String memberId = loginMember.getName();
 		int role = loginMember.getRole();
 		if (memberId.equals(params.getWriter()) || role == 1) {
-			// 1. 瓴岇嫓旮? ?爼氤? ?垬?爼
-			long id = loginMember.getId() ;
-			
+			long id = loginMember.getId();
+
 			postService.updatePost(params, id);
 
-			// 2. ?寣?澕 ?梾搿滊摐 (to disk)
 			List<FileRequest> uploadFiles = fileUtils.uploadFiles(params.getFiles());
 
-			// 3. ?寣?澕 ?爼氤? ???灔 (to database)
 			fileService.saveFiles(params.getId(), uploadFiles);
 
-			// 4. ?偔?牅?暊 ?寣?澕 ?爼氤? 臁绊殞 (from database)
 			List<FileResponse> deleteFiles = fileService.findAllFileByIds(params.getRemoveFileIds());
 
-			// 5. ?寣?澕 ?偔?牅 (from disk)
 			fileUtils.deleteFiles(deleteFiles);
 
-			// 6. ?寣?澕 ?偔?牅 (from database)
 			fileService.deleteAllFileByIds(params.getRemoveFileIds());
 
-			 result ="己傍";
+			result = "靹标车";
 			return result;
 		} else {
-			 result = "角菩";
+			result = "鞁ろ尐";
 			return result;
 		}
 	}
 
 	@PostMapping("/post/delete.do")
-	public String deletePost(@RequestParam("id") Long postId, 
-			@RequestParam("writer") String postWriter,
-			final SearchDto queryParams, HttpServletRequest request, Model model) {
+	public String deletePost(@RequestParam("id") Long postId, @RequestParam("writer") String postWriter,
+			 HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
-		String result ="";
+		String result = "";
 		UserResponse loginMember = (UserResponse) session.getAttribute("loginMember");
-		String memberId = loginMember.getLoginId();		
+		String memberId = loginMember.getLoginId();
 		int role = loginMember.getRole();
 		long id = loginMember.getId();
 		if (memberId.equals(postWriter) || role == 1) {
-			postService.deletePost(postId,id);
-			
-			result ="己傍";
+			postService.deletePost(postId, id);
+
+			result = "靹标车";
 			return result;
 		} else {
-			result="角菩";
+			result = "鞁ろ尐";
 			return result;
 		}
 	}
